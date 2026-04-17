@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "P字幕",
+  "version": "1.0.0",
+  "description": "Load a local SRT subtitle file and overlay it on HTML5 videos.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "icons": {
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "srt-parser.js",
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Load SRT subtitles",
+    "default_icon": {
+      "128": "icons/icon128.png"
+    }
+  }
+}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P字幕</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 16px;
+      box-sizing: border-box;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: #4b5563;
+      font-size: 13px;
+    }
+
+    .section {
+      margin-top: 16px;
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid #dbe3f0;
+      border-radius: 10px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toggle-row strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .toggle {
+      width: 48px;
+      height: 28px;
+      border: none;
+      border-radius: 999px;
+      background: #cbd5e1;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle.active {
+      background: #2563eb;
+    }
+
+    .toggle.active::after {
+      transform: translateX(20px);
+    }
+
+    .dropzone {
+      margin-top: 10px;
+      border: 2px dashed #93c5fd;
+      border-radius: 10px;
+      background: #eff6ff;
+      padding: 18px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .dropzone.dragover {
+      border-color: #2563eb;
+      background: #dbeafe;
+    }
+
+    .dropzone strong {
+      display: block;
+      font-size: 14px;
+      color: #1d4ed8;
+      margin-bottom: 4px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #475569;
+      word-break: break-all;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      display: none;
+    }
+
+    .status.success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .status.error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    .status.info {
+      display: block;
+      background: #e0f2fe;
+      color: #075985;
+      border: 1px solid #7dd3fc;
+    }
+  </style>
+</head>
+<body>
+  <h1>P字幕</h1>
+  <p>导入本地 `.srt` 字幕文件，并在当前页面的视频上显示字幕。</p>
+
+  <div class="section">
+    <div class="toggle-row">
+      <div>
+        <strong>字幕显示</strong>
+        <p>关闭后保留已加载文件，但不显示字幕。</p>
+      </div>
+      <button class="toggle" id="subtitleToggle" type="button" aria-label="切换字幕显示"></button>
+    </div>
+  </div>
+
+  <div class="section">
+    <strong>导入字幕文件</strong>
+    <p>支持拖拽或点击选择 `.srt` 文件。</p>
+    <div class="dropzone" id="fileInputArea">
+      <strong>选择 SRT 文件</strong>
+      <span>点击或拖拽到这里</span>
+    </div>
+    <input class="hidden" id="fileInput" type="file" accept=".srt">
+    <div class="meta" id="fileMeta">当前未加载字幕文件</div>
+  </div>
+
+  <div class="section">
+    <strong>页面状态</strong>
+    <p id="videoInfo">检测当前标签页中的视频元素...</p>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script src="srt-parser.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
